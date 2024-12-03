@@ -1,20 +1,18 @@
 import UIKit
-import GroupActivities
-import CoreTransferable
 
-class ViewController: UIViewController {
+class ModalViewController: UIViewController {
+    let label: UILabel = UILabel()
     let button: UIButton = UIButton(configuration: .filled())
-    let toggle: UISwitch = UISwitch(frame: .null)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        button.configuration?.title = "Present"
+        button.configuration?.title = "dismiss"
         
         let stackView = UIStackView(
             arrangedSubviews: [
-                toggle,
+                label,
                 button
             ]
         )
@@ -36,10 +34,11 @@ class ViewController: UIViewController {
         ])
         
         button.addAction(UIAction { [unowned self] _ in
-            let vc = ModalViewController()
-            vc.modalPresentationStyle = toggle.isOn ? .fullScreen : .automatic
-            present(vc, animated: true)
+            dismiss(animated: true)
         }, for: .primaryActionTriggered)
+        
+        // ❗ When present without fullscreen, NameDrop not working.
+        let url = URL(string: "https://apple.com")!
+        activityItemsConfiguration = UIActivityItemsConfiguration(objects: [url as NSURL])
     }
 }
-
